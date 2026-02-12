@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ShellCheck via reviewdog
+        uses: reviewdog/action-shellcheck@v1
+        with:
+          reporter: github-check
+          path: "Skript/*.sh"
+          shellcheck_flags: "-S style -x"
+
+  shfmt:
+    name: shfmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shfmt via reviewdog
+        uses: reviewdog/action-shfmt@v1
+        with:
+          reporter: github-check
+          path: "Skript"
+          shfmt_flags: "-i 2 -s -d"
+
+  bash-syntax:
+    name: Bash syntax (-n)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bash -n
+        run: |
+          set -euo pipefail
+          for f in Skript/*.sh; do
+            echo "Checking $f";
+            bash -n "$f";
+          done

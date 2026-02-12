@@ -52,3 +52,20 @@ Das Installationsskript prüft/ installiert: ffmpeg (mit `libfdk_aac` bevorzugt)
 ## Lizenz
 - Privatprojekt; passe ggf. Lizenz/Repo-Infos an.
 
+## Release-Workflow (Tags & Changelog)
+- Version taggen (SemVer empfohlen):
+  ```bash
+  git tag -a v1.0.0 -m "v1.0.0: erste stabile Version"
+  git push origin v1.0.0
+  ```
+- GitHub Release anlegen: gehe zu "Releases" → "Draft a new release", wähle den Tag, füge Release Notes hinzu.
+- Changelog führen (optional):
+  - Lege `CHANGELOG.md` an und pflege Einträge nach Keep-a-Changelog-Format (Added/Changed/Fixed).
+  - Automatisieren: benutze Conventional Commits (feat/fix/chore), dann kann ein Tool (z. B. `git-cliff`) die Release Notes generieren.
+
+## CI (Qualität)
+- GitHub Actions prüfen Shellscripts:
+  - ShellCheck (Stil/Best Practices)
+  - shfmt (Formatierung nur checkend)
+  - Bash `-n` Syntaxprüfung
+  Die Konfiguration liegt unter `.github/workflows/ci.yml`.
